@@ -1,11 +1,10 @@
-
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 const InfoCard = ({ title, content, delay = 0 }: { title: string; content: string; delay?: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, threshold: 0.3 });
+  const isInView = useInView(ref, { once: true });
 
   return (
     <motion.div

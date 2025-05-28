@@ -41,6 +41,7 @@ const ParticleField = () => {
 
 const GeometricLines = () => {
   const groupRef = useRef<THREE.Group>(null);
+  const lineRef = useRef<THREE.Line>(null);
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -48,28 +49,27 @@ const GeometricLines = () => {
     }
   });
 
-  const lines = useMemo(() => {
-    const lineGeometry = new THREE.BufferGeometry();
+  const lineGeometry = useMemo(() => {
     const points = [];
     
     // Create geometric line patterns
     for (let i = 0; i < 50; i++) {
       const angle = (i / 50) * Math.PI * 2;
       const radius = 5 + Math.sin(i * 0.5) * 2;
-      points.push(
+      points.push(new THREE.Vector3(
         Math.cos(angle) * radius,
         Math.sin(angle) * radius,
         Math.sin(i * 0.1) * 3
-      );
+      ));
     }
     
-    lineGeometry.setFromPoints(points.map(p => new THREE.Vector3(p[0] || 0, p[1] || 0, p[2] || 0)));
-    return lineGeometry;
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    return geometry;
   }, []);
 
   return (
     <group ref={groupRef}>
-      <line geometry={lines}>
+      <line ref={lineRef} geometry={lineGeometry}>
         <lineBasicMaterial color="#E86C00" transparent opacity={0.3} />
       </line>
     </group>
