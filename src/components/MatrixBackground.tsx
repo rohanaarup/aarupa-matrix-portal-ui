@@ -41,7 +41,6 @@ const ParticleField = () => {
 
 const GeometricLines = () => {
   const groupRef = useRef<THREE.Group>(null);
-  const lineRef = useRef<THREE.Line>(null);
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -69,9 +68,10 @@ const GeometricLines = () => {
 
   return (
     <group ref={groupRef}>
-      <line ref={lineRef} geometry={lineGeometry}>
+      <mesh>
+        <primitive object={lineGeometry} />
         <lineBasicMaterial color="#E86C00" transparent opacity={0.3} />
-      </line>
+      </mesh>
     </group>
   );
 };
