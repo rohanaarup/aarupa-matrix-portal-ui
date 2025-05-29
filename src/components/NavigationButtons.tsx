@@ -1,21 +1,24 @@
 
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface NavigationButtonsProps {
   isVisible: boolean;
 }
 
 export const NavigationButtons = ({ isVisible }: NavigationButtonsProps) => {
+  const navigate = useNavigate();
+
   const buttons = [
-    { text: 'ABOUT A.MATRIX', delay: 0 },
-    { text: 'WHAT IS A.MATRIX', delay: 0.2 },
-    { text: 'BUILD YOUR WORLD', delay: 0.4 }
+    { text: 'ABOUT A.MATRIX', path: '/about', delay: 0 },
+    { text: 'WHAT IS A.MATRIX', path: '/what-is-matrix', delay: 0.2 },
+    { text: 'BUILD YOUR WORLD', path: '/build-world', delay: 0.4 }
   ];
 
-  const handleButtonClick = (buttonText: string) => {
-    console.log(`Clicked: ${buttonText}`);
-    // Navigation logic would go here
+  const handleButtonClick = (path: string, buttonText: string) => {
+    console.log(`Navigating to: ${path} - ${buttonText}`);
+    navigate(path);
   };
 
   return (
@@ -42,7 +45,7 @@ export const NavigationButtons = ({ isVisible }: NavigationButtonsProps) => {
           whileTap={{ scale: 0.95 }}
         >
           <Button
-            onClick={() => handleButtonClick(button.text)}
+            onClick={() => handleButtonClick(button.path, button.text)}
             variant="outline"
             className="w-full py-4 px-6 bg-black/80 border-2 border-matrix-orange/60 text-matrix-orange hover:bg-matrix-orange/10 hover:border-matrix-orange transition-all duration-300 font-matrix tracking-wider relative group overflow-hidden"
           >
