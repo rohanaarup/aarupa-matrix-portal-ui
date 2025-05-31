@@ -26,15 +26,21 @@ const Questionnaire = () => {
   ];
 
   const handleInputChange = (questionKey: string, value: string) => {
-    const questionNum = parseInt(questionKey.replace('question', ''), 10);
     setAnswers(prev => ({
       ...prev,
       [questionKey]: value
     }));
+  };
 
-    // Reveal next question only if current input has text and it's the latest question
-    if (value.trim() !== '' && questionNum === currentQuestion && currentQuestion < 5) {
+  const nextQuestion = () => {
+    if (currentQuestion < 5) {
       setCurrentQuestion(currentQuestion + 1);
+    }
+  };
+
+  const prevQuestion = () => {
+    if (currentQuestion > 1) {
+      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -47,6 +53,10 @@ const Questionnaire = () => {
     // Open homepage in a new tab as requested
     window.open('/home', '_blank');
   };
+
+  const currentQuestionKey = `question${currentQuestion}` as keyof typeof answers;
+  const currentAnswer = answers[currentQuestionKey];
+  const canProceed = currentAnswer.trim() !== '';
 
   return (
     <div className="min-h-screen bg-matrix-black text-white relative overflow-hidden">
@@ -105,58 +115,60 @@ const Questionnaire = () => {
                 </div>
               </div>
 
-              {/* Sequential Questions */}
-              <div className="space-y-6">
-                {questions.map((question, index) => {
-                  const questionNumber = index + 1;
-                  const questionKey = `question${questionNumber}` as keyof typeof answers;
-                  const shouldDisplay = questionNumber <= currentQuestion;
+              {/* Current Question */}
+              <motion.div
+                key={currentQuestion}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-6"
+              >
+                <div className="p-6 border border-matrix-gray/30 rounded bg-black/40">
+                  <Label className="text-matrix-orange font-matrix text-lg tracking-wide block mb-4">
+                    Question {currentQuestion}: {questions[currentQuestion - 1]}
+                  </Label>
+                  <Textarea
+                    value={currentAnswer}
+                    onChange={(e) => handleInputChange(currentQuestionKey, e.target.value)}
+                    className="min-h-[150px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
+                    placeholder="Share your thoughts..."
+                  />
+                </div>
+              </motion.div>
 
-                  return (
-                    <AnimatePresence key={questionKey}>
-                      {shouldDisplay && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 30, maxHeight: 0 }}
-                          animate={{ opacity: 1, y: 0, maxHeight: 500 }}
-                          exit={{ opacity: 0, y: -30, maxHeight: 0 }}
-                          transition={{ duration: 0.5, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="space-y-4 p-6 border border-matrix-gray/30 rounded bg-black/40">
-                            <Label className="text-matrix-orange font-matrix text-lg tracking-wide block">
-                              Question {questionNumber}: {question}
-                            </Label>
-                            <Textarea
-                              value={answers[questionKey]}
-                              onChange={(e) => handleInputChange(questionKey, e.target.value)}
-                              className="min-h-[120px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
-                              placeholder="Share your thoughts..."
-                            />
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  );
-                })}
-              </div>
-
-              {/* Submit Button - Only visible when user starts answering question 5 */}
-              {currentQuestion === 5 && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex justify-center mt-8"
+              {/* Navigation Buttons */}
+              <div className="flex justify-between items-center mt-8">
+                <Button
+                  onClick={prevQuestion}
+                  disabled={currentQuestion === 1}
+                  className="bg-matrix-gray hover:bg-matrix-gray/80 text-white font-matrix font-bold px-8 py-3 disabled:opacity-30 disabled:cursor-not-allowed"
                 >
+                  PREVIOUS
+                </Button>
+
+                <div className="text-matrix-orange font-matrix text-sm">
+                  {currentQuestion} of 5
+                </div>
+
+                {currentQuestion < 5 ? (
+                  <Button
+                    onClick={nextQuestion}
+                    disabled={!canProceed}
+                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    NEXT
+                  </Button>
+                ) : (
                   <Button
                     onClick={handleSubmit}
-                    disabled={answers.question5.trim() === ''}
-                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-12 py-4 text-lg tracking-wider disabled:opacity-50"
+                    disabled={!canProceed}
+                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     CREATE MATRIX
                   </Button>
-                </motion.div>
-              )}
+                )}
+              </div>
             </motion.div>
           ) : (
             /* Matrix Created Confirmation */
