@@ -128,10 +128,10 @@ const Questionnaire = () => {
                   <Label className="text-matrix-orange font-matrix text-lg tracking-wide block mb-4">
                     Question {currentQuestion}: {questions[currentQuestion - 1]}
                   </Label>
-                  <Textarea
+                  <textarea
                     value={currentAnswer}
                     onChange={(e) => handleInputChange(currentQuestionKey, e.target.value)}
-                    className="min-h-[150px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
+                    className="w-full min-h-[150px] bg-black/80 border border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-matrix-orange"
                     placeholder="Share your thoughts..."
                   />
                 </div>
