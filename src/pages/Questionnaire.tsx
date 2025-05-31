@@ -1,8 +1,6 @@
-
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { MatrixBackground } from '@/components/MatrixBackground';
 
@@ -50,7 +48,6 @@ const Questionnaire = () => {
   };
 
   const navigateToHome = () => {
-    // Open homepage in a new tab as requested
     window.open('/home', '_blank');
   };
 
@@ -131,8 +128,9 @@ const Questionnaire = () => {
                   <textarea
                     value={currentAnswer}
                     onChange={(e) => handleInputChange(currentQuestionKey, e.target.value)}
-                    className="w-full min-h-[150px] bg-black/80 border border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-matrix-orange"
+                    className="w-full min-h-[150px] bg-black/60 border border-matrix-gray/50 text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none rounded-md p-4 focus:outline-none focus:ring-2 focus:ring-matrix-orange/50"
                     placeholder="Share your thoughts..."
+                    style={{ fontSize: '16px' }}
                   />
                 </div>
               </motion.div>
