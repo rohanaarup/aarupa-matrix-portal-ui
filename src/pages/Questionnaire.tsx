@@ -7,30 +7,34 @@ import { Label } from '@/components/ui/label';
 import { MatrixBackground } from '@/components/MatrixBackground';
 
 const Questionnaire = () => {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
   const [answers, setAnswers] = useState({
     question1: '',
     question2: '',
-    aboutYourself: ''
+    question3: '',
+    question4: '',
+    question5: ''
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
+  const questions = [
+    "What draws you to explore your inner consciousness?",
+    "Describe the emotional landscape you wish to explore.",
+    "Which fictional character do you feel most connected to and why?",
+    "What aspects of your personality do you want to understand better?",
+    "How do you envision your ideal emotional support system?"
+  ];
+
+  const handleInputChange = (questionKey: string, value: string) => {
+    const questionNum = parseInt(questionKey.replace('question', ''), 10);
     setAnswers(prev => ({
       ...prev,
-      [field]: value
+      [questionKey]: value
     }));
-  };
 
-  const nextStep = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+    // Reveal next question only if current input has text and it's the latest question
+    if (value.trim() !== '' && questionNum === currentQuestion && currentQuestion < 5) {
+      setCurrentQuestion(currentQuestion + 1);
     }
   };
 
@@ -40,7 +44,8 @@ const Questionnaire = () => {
   };
 
   const navigateToHome = () => {
-    window.location.href = '/home';
+    // Open homepage in a new tab as requested
+    window.open('/home', '_blank');
   };
 
   return (
@@ -81,18 +86,18 @@ const Questionnaire = () => {
               {/* Progress indicator */}
               <div className="flex justify-center mb-8">
                 <div className="flex items-center space-x-4">
-                  {[1, 2, 3].map((step) => (
+                  {[1, 2, 3, 4, 5].map((step) => (
                     <div key={step} className="flex items-center">
                       <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center font-matrix text-sm ${
-                        currentStep >= step 
+                        currentQuestion >= step 
                           ? 'border-matrix-orange bg-matrix-orange text-black' 
                           : 'border-matrix-gray text-matrix-gray'
                       }`}>
                         {step}
                       </div>
-                      {step < 3 && (
+                      {step < 5 && (
                         <div className={`w-16 h-0.5 ml-4 ${
-                          currentStep > step ? 'bg-matrix-orange' : 'bg-matrix-gray'
+                          currentQuestion > step ? 'bg-matrix-orange' : 'bg-matrix-gray'
                         }`}></div>
                       )}
                     </div>
@@ -100,118 +105,58 @@ const Questionnaire = () => {
                 </div>
               </div>
 
-              <AnimatePresence mode="wait">
-                {/* Question 1 */}
-                {currentStep === 1 && (
-                  <motion.div
-                    key="question1"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-                    <div>
-                      <Label className="text-matrix-orange font-matrix text-lg tracking-wide block mb-4">
-                        Question 1: What draws you to explore your inner consciousness?
-                      </Label>
-                      <Textarea
-                        value={answers.question1}
-                        onChange={(e) => handleInputChange('question1', e.target.value)}
-                        className="min-h-[150px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
-                        placeholder="Share your thoughts about what drives your journey into consciousness exploration..."
-                      />
-                    </div>
-                    <div className="flex justify-end">
-                      <Button
-                        onClick={nextStep}
-                        disabled={!answers.question1.trim()}
-                        className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 tracking-wider"
-                      >
-                        CONTINUE
-                      </Button>
-                    </div>
-                  </motion.div>
-                )}
+              {/* Sequential Questions */}
+              <div className="space-y-6">
+                {questions.map((question, index) => {
+                  const questionNumber = index + 1;
+                  const questionKey = `question${questionNumber}` as keyof typeof answers;
+                  const shouldDisplay = questionNumber <= currentQuestion;
 
-                {/* Question 2 */}
-                {currentStep === 2 && (
-                  <motion.div
-                    key="question2"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
-                  >
-                    <div>
-                      <Label className="text-matrix-orange font-matrix text-lg tracking-wide block mb-4">
-                        Question 2: Describe the emotional landscape you wish to explore.
-                      </Label>
-                      <Textarea
-                        value={answers.question2}
-                        onChange={(e) => handleInputChange('question2', e.target.value)}
-                        className="min-h-[150px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
-                        placeholder="Describe the emotions, feelings, and inner territories you want to map and understand..."
-                      />
-                    </div>
-                    <div className="flex justify-between">
-                      <Button
-                        onClick={prevStep}
-                        className="bg-matrix-gray hover:bg-matrix-gray-light text-white font-matrix font-bold px-8 py-3 tracking-wider"
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        onClick={nextStep}
-                        disabled={!answers.question2.trim()}
-                        className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 tracking-wider"
-                      >
-                        CONTINUE
-                      </Button>
-                    </div>
-                  </motion.div>
-                )}
+                  return (
+                    <AnimatePresence key={questionKey}>
+                      {shouldDisplay && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 30, maxHeight: 0 }}
+                          animate={{ opacity: 1, y: 0, maxHeight: 500 }}
+                          exit={{ opacity: 0, y: -30, maxHeight: 0 }}
+                          transition={{ duration: 0.5, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="space-y-4 p-6 border border-matrix-gray/30 rounded bg-black/40">
+                            <Label className="text-matrix-orange font-matrix text-lg tracking-wide block">
+                              Question {questionNumber}: {question}
+                            </Label>
+                            <Textarea
+                              value={answers[questionKey]}
+                              onChange={(e) => handleInputChange(questionKey, e.target.value)}
+                              className="min-h-[120px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
+                              placeholder="Share your thoughts..."
+                            />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  );
+                })}
+              </div>
 
-                {/* Tell about yourself */}
-                {currentStep === 3 && (
-                  <motion.div
-                    key="aboutYourself"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5 }}
-                    className="space-y-6"
+              {/* Submit Button - Only visible when user starts answering question 5 */}
+              {currentQuestion === 5 && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex justify-center mt-8"
+                >
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={answers.question5.trim() === ''}
+                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-12 py-4 text-lg tracking-wider disabled:opacity-50"
                   >
-                    <div>
-                      <Label className="text-matrix-orange font-matrix text-lg tracking-wide block mb-4">
-                        Tell about yourself
-                      </Label>
-                      <Textarea
-                        value={answers.aboutYourself}
-                        onChange={(e) => handleInputChange('aboutYourself', e.target.value)}
-                        className="min-h-[200px] bg-black/80 border-matrix-gray text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none"
-                        placeholder="Share your thoughts, feelings, aspirations, fears, dreams, and anything that defines your inner world..."
-                      />
-                    </div>
-                    <div className="flex justify-between">
-                      <Button
-                        onClick={prevStep}
-                        className="bg-matrix-gray hover:bg-matrix-gray-light text-white font-matrix font-bold px-8 py-3 tracking-wider"
-                      >
-                        BACK
-                      </Button>
-                      <Button
-                        onClick={handleSubmit}
-                        disabled={!answers.aboutYourself.trim()}
-                        className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 tracking-wider"
-                      >
-                        CREATE MATRIX
-                      </Button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    CREATE MATRIX
+                  </Button>
+                </motion.div>
+              )}
             </motion.div>
           ) : (
             /* Matrix Created Confirmation */
