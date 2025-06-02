@@ -67,19 +67,20 @@ const Home = () => {
             transition={{ duration: 1 }}
           >
             <motion.div
-              className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#ff5f1f]/50 shadow-lg"
+              className="w-12 h-12 rounded-xl overflow-hidden border-2 border-[#ff5f1f]/60 shadow-xl bg-white/10 backdrop-blur-sm"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, delay: 0.3 }}
               whileHover={{ 
                 scale: 1.1,
-                boxShadow: "0 0 25px rgba(255, 95, 31, 0.6)"
+                boxShadow: "0 0 25px rgba(255, 95, 31, 0.8)",
+                borderColor: "#ff5f1f"
               }}
             >
               <img 
                 src="/lovable-uploads/5a5bcf8c-83ac-4a81-b004-cfe7cfd3b93c.png" 
                 alt="AARUPA MATRIX Logo" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover brightness-125 contrast-110 saturate-110"
               />
             </motion.div>
             <span className="text-[#ff5f1f] font-matrix font-black text-3xl tracking-widest drop-shadow-lg">
