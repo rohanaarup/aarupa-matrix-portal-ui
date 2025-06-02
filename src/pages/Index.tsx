@@ -28,7 +28,7 @@ const Index = () => {
       {/* Clean 3D Background */}
       <MatrixBackground />
       
-      {/* Clean Viewport Frame Border - removed backdrop-blur */}
+      {/* Clean Viewport Frame Border */}
       <motion.div 
         className="fixed inset-4 border border-[#ff5f1f]/60 pointer-events-none z-50"
         animate={{ 
@@ -47,7 +47,7 @@ const Index = () => {
         <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#ff5f1f]"></div>
       </motion.div>
 
-      {/* Clean Header - reduced blur and improved readability */}
+      {/* Clean Header */}
       <motion.header 
         className="fixed top-0 left-0 right-0 z-40 p-8 bg-black/80 border-b border-[#ff5f1f]/20"
         initial={{ opacity: 0, y: -50 }}
@@ -55,20 +55,38 @@ const Index = () => {
         transition={{ duration: 1, delay: 0.5 }}
       >
         <div className="flex justify-between items-center">
-          <motion.h1 
-            className="text-5xl md:text-6xl font-matrix font-black text-[#ff5f1f] tracking-widest"
-            animate={{ 
-              textShadow: [
-                "0 0 20px #ff5f1f",
-                "0 0 40px #ff5f1f, 0 0 60px #ff5f1f",
-                "0 0 20px #ff5f1f"
-              ]
-            }}
-            transition={{ duration: 3, repeat: Infinity }}
-            whileHover={{ scale: 1.05 }}
-          >
-            AARUPA MATRIX
-          </motion.h1>
+          <div className="flex items-center space-x-4">
+            <motion.div
+              className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#ff5f1f]/50 shadow-lg"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.7 }}
+              whileHover={{ 
+                scale: 1.1,
+                boxShadow: "0 0 30px rgba(255, 95, 31, 0.6)"
+              }}
+            >
+              <img 
+                src="/lovable-uploads/5a5bcf8c-83ac-4a81-b004-cfe7cfd3b93c.png" 
+                alt="AARUPA MATRIX Logo" 
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            <motion.h1 
+              className="text-5xl md:text-6xl font-matrix font-black text-[#ff5f1f] tracking-widest"
+              animate={{ 
+                textShadow: [
+                  "0 0 20px #ff5f1f",
+                  "0 0 40px #ff5f1f, 0 0 60px #ff5f1f",
+                  "0 0 20px #ff5f1f"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              whileHover={{ scale: 1.05 }}
+            >
+              AARUPA MATRIX
+            </motion.h1>
+          </div>
           
           <motion.button
             onClick={toggleSound}

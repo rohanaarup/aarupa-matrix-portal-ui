@@ -59,13 +59,29 @@ const Home = () => {
             </motion.button>
           </div>
           
-          {/* Larger, Centered AARUPA MATRIX Title */}
+          {/* Logo and Title - Centered */}
           <motion.div 
-            className="absolute left-1/2 transform -translate-x-1/2"
+            className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-4"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
+            <motion.div
+              className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#ff5f1f]/50 shadow-lg"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              whileHover={{ 
+                scale: 1.1,
+                boxShadow: "0 0 25px rgba(255, 95, 31, 0.6)"
+              }}
+            >
+              <img 
+                src="/lovable-uploads/5a5bcf8c-83ac-4a81-b004-cfe7cfd3b93c.png" 
+                alt="AARUPA MATRIX Logo" 
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
             <span className="text-[#ff5f1f] font-matrix font-black text-3xl tracking-widest drop-shadow-lg">
               AARUPA MATRIX
             </span>
