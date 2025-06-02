@@ -25,12 +25,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-matrix-black text-white overflow-x-hidden relative">
-      {/* Enhanced 3D Background */}
+      {/* Clean 3D Background */}
       <MatrixBackground />
       
-      {/* Enhanced Viewport Frame Border with glassmorphism */}
+      {/* Clean Viewport Frame Border - removed backdrop-blur */}
       <motion.div 
-        className="fixed inset-4 border border-[#ff5f1f]/60 pointer-events-none z-50 bg-gradient-to-r from-[#ff5f1f]/5 via-transparent to-[#ff5f1f]/5 backdrop-blur-sm"
+        className="fixed inset-4 border border-[#ff5f1f]/60 pointer-events-none z-50"
         animate={{ 
           boxShadow: [
             "0 0 20px rgba(255, 95, 31, 0.3)",
@@ -40,16 +40,16 @@ const Index = () => {
         }}
         transition={{ duration: 3, repeat: Infinity }}
       >
-        {/* Enhanced corner decorations */}
-        <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#ff5f1f] bg-gradient-to-br from-[#ff5f1f]/20 to-transparent"></div>
-        <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#ff5f1f] bg-gradient-to-bl from-[#ff5f1f]/20 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#ff5f1f] bg-gradient-to-tr from-[#ff5f1f]/20 to-transparent"></div>
-        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#ff5f1f] bg-gradient-to-tl from-[#ff5f1f]/20 to-transparent"></div>
+        {/* Clean corner decorations */}
+        <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#ff5f1f]"></div>
+        <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#ff5f1f]"></div>
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#ff5f1f]"></div>
+        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#ff5f1f]"></div>
       </motion.div>
 
-      {/* Enhanced Header */}
+      {/* Clean Header - reduced blur and improved readability */}
       <motion.header 
-        className="fixed top-0 left-0 right-0 z-40 p-8 bg-black/60 backdrop-blur-md border-b border-[#ff5f1f]/20"
+        className="fixed top-0 left-0 right-0 z-40 p-8 bg-black/80 border-b border-[#ff5f1f]/20"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -72,7 +72,7 @@ const Index = () => {
           
           <motion.button
             onClick={toggleSound}
-            className="flex items-center space-x-3 text-[#ff5f1f] border border-[#ff5f1f]/50 px-6 py-3 bg-black/80 backdrop-blur-sm hover:bg-[#ff5f1f]/10 transition-all duration-300 font-matrix tracking-wide rounded-lg"
+            className="flex items-center space-x-3 text-[#ff5f1f] border border-[#ff5f1f]/50 px-6 py-3 bg-black/90 hover:bg-[#ff5f1f]/10 transition-all duration-300 font-matrix tracking-wide rounded-lg"
             whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 95, 31, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
@@ -87,19 +87,19 @@ const Index = () => {
         </div>
       </motion.header>
 
-      {/* Enhanced floating particles */}
+      {/* Clean floating particles */}
       <div className="absolute inset-0 z-5">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-[#ff5f1f]/60 rounded-full"
+            className="absolute w-1 h-1 bg-[#ff5f1f]/40 rounded-full"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
             }}
             animate={{
               y: [-20, -100],
-              opacity: [0, 1, 0],
+              opacity: [0, 0.6, 0],
               scale: [0.5, 1, 0.5],
             }}
             transition={{
@@ -113,7 +113,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="relative z-10 pt-40">
-        {/* Enhanced Hero Section */}
+        {/* Clean Hero Section */}
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 w-full max-w-7xl">
             
@@ -143,7 +143,7 @@ const Index = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="text-center p-8 rounded-xl border border-[#ff5f1f]/30 bg-black/60 backdrop-blur-sm"
+                  className="text-center p-8 rounded-xl border border-[#ff5f1f]/30 bg-black/80"
                 >
                   <motion.h2 
                     className="text-4xl font-matrix font-bold text-[#ff5f1f] mb-6 tracking-wider"
@@ -158,7 +158,7 @@ const Index = () => {
                   >
                     CONSCIOUSNESS PORTAL
                   </motion.h2>
-                  <p className="text-white/80 font-matrix-body text-xl max-w-md mx-auto leading-relaxed">
+                  <p className="text-white font-matrix-body text-xl max-w-md mx-auto leading-relaxed">
                     Your gateway to digital transcendence and inner world exploration.
                   </p>
                 </motion.div>
@@ -177,7 +177,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Enhanced Scroll Indicator */}
+        {/* Clean Scroll Indicator */}
         <motion.div
           className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-[#ff5f1f]"
           animate={{ y: [0, 15, 0] }}
@@ -196,9 +196,9 @@ const Index = () => {
         {/* Information Sections */}
         <InfoSections />
 
-        {/* Enhanced Footer */}
+        {/* Clean Footer */}
         <motion.footer
-          className="relative border-t border-[#ff5f1f]/30 bg-gradient-to-br from-black/95 to-black/80 backdrop-blur-sm p-12 mt-20"
+          className="relative border-t border-[#ff5f1f]/30 bg-gradient-to-br from-black/95 to-black/80 p-12 mt-20"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
@@ -211,15 +211,15 @@ const Index = () => {
             >
               THE WORLD OF ROHAN
             </motion.h3>
-            <p className="text-white/60 font-matrix-body text-lg">
+            <p className="text-white font-matrix-body text-lg">
               Where consciousness meets infinite possibility
             </p>
           </div>
         </motion.footer>
       </main>
 
-      {/* Enhanced diagonal line pattern overlay */}
-      <div className="fixed inset-0 pointer-events-none z-5 opacity-5">
+      {/* Clean diagonal line pattern overlay - reduced opacity */}
+      <div className="fixed inset-0 pointer-events-none z-5 opacity-3">
         <div className="absolute inset-0" style={{
           backgroundImage: `repeating-linear-gradient(
             45deg,
