@@ -59,17 +59,21 @@ const Questionnaire = () => {
 
   return (
     <div className="min-h-screen bg-matrix-black text-white relative overflow-hidden">
-      <MatrixBackground />
+      {/* Background with pointer-events disabled to prevent interference */}
+      <div className="absolute inset-0 pointer-events-none">
+        <MatrixBackground />
+      </div>
       
-      {/* Viewport Frame Border */}
-      <div className="fixed inset-4 border border-matrix-orange/50 pointer-events-none z-50 animate-matrix-glow">
+      {/* Viewport Frame Border - pointer-events disabled */}
+      <div className="fixed inset-4 border border-matrix-orange/50 pointer-events-none z-10 animate-matrix-glow">
         <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-matrix-orange"></div>
         <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-matrix-orange"></div>
         <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-matrix-orange"></div>
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-matrix-orange"></div>
       </div>
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-8">
+      {/* Main content with proper z-index */}
+      <div className="relative z-20 min-h-screen flex items-center justify-center p-8">
         <div className="w-full max-w-4xl mx-auto">
           
           {!showConfirmation ? (
@@ -79,14 +83,14 @@ const Questionnaire = () => {
               transition={{ duration: 0.8 }}
               className="relative border border-matrix-orange/60 bg-black/90 backdrop-blur-sm p-8"
             >
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 border border-matrix-orange/30 animate-matrix-pulse"></div>
+              {/* Glowing border effect - pointer-events disabled */}
+              <div className="absolute inset-0 border border-matrix-orange/30 animate-matrix-pulse pointer-events-none"></div>
               
-              {/* Corner elements */}
-              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-matrix-orange"></div>
-              <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-matrix-orange"></div>
-              <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-matrix-orange"></div>
-              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-matrix-orange"></div>
+              {/* Corner elements - pointer-events disabled */}
+              <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-matrix-orange pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-matrix-orange pointer-events-none"></div>
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-matrix-orange pointer-events-none"></div>
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-matrix-orange pointer-events-none"></div>
 
               <h1 className="text-4xl font-matrix font-bold text-matrix-orange mb-8 text-center tracking-wider">
                 INTRODUCE & CREATE YOUR MATRIX
@@ -140,6 +144,7 @@ const Questionnaire = () => {
               {/* Navigation Buttons */}
               <div className="flex justify-between items-center mt-8">
                 <Button
+                  type="button"
                   onClick={prevQuestion}
                   disabled={currentQuestion === 1}
                   className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
@@ -157,6 +162,7 @@ const Questionnaire = () => {
 
                 {currentQuestion < 5 ? (
                   <Button
+                    type="button"
                     onClick={nextQuestion}
                     disabled={!canProceed}
                     className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
@@ -169,6 +175,7 @@ const Questionnaire = () => {
                   </Button>
                 ) : (
                   <Button
+                    type="button"
                     onClick={handleSubmit}
                     disabled={!canProceed}
                     className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
@@ -191,14 +198,14 @@ const Questionnaire = () => {
               className="text-center"
             >
               <div className="relative border-2 border-matrix-orange bg-black/90 backdrop-blur-sm p-12 max-w-2xl mx-auto">
-                {/* Animated border */}
-                <div className="absolute inset-0 border-2 border-matrix-orange animate-matrix-glow"></div>
+                {/* Animated border - pointer-events disabled */}
+                <div className="absolute inset-0 border-2 border-matrix-orange animate-matrix-glow pointer-events-none"></div>
                 
-                {/* Corner decorations */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-matrix-orange"></div>
-                <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-matrix-orange"></div>
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-matrix-orange"></div>
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-matrix-orange"></div>
+                {/* Corner decorations - pointer-events disabled */}
+                <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-matrix-orange pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-matrix-orange pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-matrix-orange pointer-events-none"></div>
+                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-matrix-orange pointer-events-none"></div>
 
                 <motion.h2 
                   className="text-4xl font-matrix font-bold text-matrix-orange mb-6 tracking-wider"
@@ -230,10 +237,10 @@ const Questionnaire = () => {
                     scale: { duration: 2, repeat: Infinity }
                   }}
                 >
-                  <div className="absolute inset-4 border border-matrix-orange"></div>
-                  <div className="absolute inset-8 border border-matrix-orange"></div>
+                  <div className="absolute inset-4 border border-matrix-orange pointer-events-none"></div>
+                  <div className="absolute inset-8 border border-matrix-orange pointer-events-none"></div>
                   <motion.div 
-                    className="absolute top-1/2 left-1/2 w-2 h-2 bg-matrix-orange rounded-full"
+                    className="absolute top-1/2 left-1/2 w-2 h-2 bg-matrix-orange rounded-full pointer-events-none"
                     style={{ transform: 'translate(-50%, -50%)' }}
                     animate={{ 
                       scale: [1, 2, 1],
@@ -244,6 +251,7 @@ const Questionnaire = () => {
                 </motion.div>
 
                 <Button
+                  type="button"
                   onClick={navigateToHome}
                   className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-12 py-4 text-lg tracking-wider relative overflow-hidden group transition-all duration-300 hover:scale-105"
                 >
