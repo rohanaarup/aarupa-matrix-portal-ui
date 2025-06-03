@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,8 @@ const Questionnaire = () => {
     "How do you envision your ideal emotional support system?"
   ];
 
-  const handleInputChange = (questionKey: string, value: string) => {
+  const handleInputChange = (value: string) => {
+    const questionKey = `question${currentQuestion}` as keyof typeof answers;
     setAnswers(prev => ({
       ...prev,
       [questionKey]: value
@@ -53,7 +55,7 @@ const Questionnaire = () => {
 
   const currentQuestionKey = `question${currentQuestion}` as keyof typeof answers;
   const currentAnswer = answers[currentQuestionKey];
-  const canProceed = currentAnswer.trim() !== '';
+  const canProceed = currentAnswer.trim().length > 0;
 
   return (
     <div className="min-h-screen bg-matrix-black text-white relative overflow-hidden">
@@ -127,10 +129,10 @@ const Questionnaire = () => {
                   </Label>
                   <textarea
                     value={currentAnswer}
-                    onChange={(e) => handleInputChange(currentQuestionKey, e.target.value)}
-                    className="w-full min-h-[150px] bg-black/60 border border-matrix-gray/50 text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none rounded-md p-4 focus:outline-none focus:ring-2 focus:ring-matrix-orange/50"
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    className="w-full min-h-[150px] bg-black/60 border border-matrix-gray/50 text-white focus:border-matrix-orange transition-colors font-matrix-body resize-none rounded-md p-4 focus:outline-none focus:ring-2 focus:ring-matrix-orange/50 placeholder:text-gray-400"
                     placeholder="Share your thoughts..."
-                    style={{ fontSize: '16px' }}
+                    autoFocus
                   />
                 </div>
               </motion.div>
@@ -140,7 +142,11 @@ const Questionnaire = () => {
                 <Button
                   onClick={prevQuestion}
                   disabled={currentQuestion === 1}
-                  className="bg-matrix-gray hover:bg-matrix-gray/80 text-white font-matrix font-bold px-8 py-3 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
+                    currentQuestion === 1 
+                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed opacity-50' 
+                      : 'bg-matrix-gray hover:bg-matrix-gray/80 text-white hover:scale-105'
+                  }`}
                 >
                   PREVIOUS
                 </Button>
@@ -153,7 +159,11 @@ const Questionnaire = () => {
                   <Button
                     onClick={nextQuestion}
                     disabled={!canProceed}
-                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
+                      !canProceed 
+                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed opacity-50' 
+                        : 'bg-matrix-orange hover:bg-matrix-orange-glow text-black hover:scale-105'
+                    }`}
                   >
                     NEXT
                   </Button>
@@ -161,7 +171,11 @@ const Questionnaire = () => {
                   <Button
                     onClick={handleSubmit}
                     disabled={!canProceed}
-                    className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className={`font-matrix font-bold px-8 py-3 transition-all duration-300 ${
+                      !canProceed 
+                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed opacity-50' 
+                        : 'bg-matrix-orange hover:bg-matrix-orange-glow text-black hover:scale-105'
+                    }`}
                   >
                     CREATE MATRIX
                   </Button>
@@ -231,7 +245,7 @@ const Questionnaire = () => {
 
                 <Button
                   onClick={navigateToHome}
-                  className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-12 py-4 text-lg tracking-wider relative overflow-hidden group"
+                  className="bg-matrix-orange hover:bg-matrix-orange-glow text-black font-matrix font-bold px-12 py-4 text-lg tracking-wider relative overflow-hidden group transition-all duration-300 hover:scale-105"
                 >
                   <span className="relative z-10">ENTER YOUR WORLD</span>
                   <motion.div
