@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MatrixBackground } from '@/components/MatrixBackground';
@@ -20,7 +19,7 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   
-  const { playPageTransition } = useSoundEffects();
+  const { playCelestialBlast } = useSoundEffects();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -37,7 +36,7 @@ const Index = () => {
   const handleLoadingComplete = () => {
     setShowLoader(false);
     setIsLoaded(true);
-    playPageTransition();
+    playCelestialBlast();
   };
 
   return (

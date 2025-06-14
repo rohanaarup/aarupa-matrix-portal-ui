@@ -7,6 +7,8 @@ import { CustomCursor } from '@/components/CustomCursor';
 import { FloatingParticles } from '@/components/FloatingParticles';
 import { PoweredByFooter } from '@/components/PoweredByFooter';
 import { SpeechToTextArea } from '@/components/SpeechToTextArea';
+import { CinematicTransition } from '@/components/CinematicTransition';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { Play, Pause } from 'lucide-react';
 
 const Questionnaire = () => {
@@ -19,7 +21,10 @@ const Questionnaire = () => {
     question5: ''
   });
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showTransition, setShowTransition] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
+
+  const { playCelestialBlast } = useSoundEffects();
 
   const questions = [
     "What draws you to explore your inner consciousness?",
@@ -64,7 +69,16 @@ const Questionnaire = () => {
     setShowConfirmation(true);
   };
 
-  const navigateToHome = () => {
+  const handleCreateMatrix = () => {
+    // Play the celestial blast sound
+    playCelestialBlast();
+    
+    // Show cinematic transition
+    setShowTransition(true);
+  };
+
+  const handleTransitionComplete = () => {
+    // Navigate to home page
     window.open('/home', '_blank');
   };
 
@@ -82,6 +96,14 @@ const Questionnaire = () => {
       <CustomCursor />
       <FloatingParticles />
       <PoweredByFooter />
+      
+      {/* Cinematic Transition */}
+      <CinematicTransition
+        isVisible={showTransition}
+        onComplete={handleTransitionComplete}
+        title="MATRIX CREATED"
+        subtitle="YOUR WORLD AWAITS"
+      />
       
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -332,7 +354,7 @@ const Questionnaire = () => {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button
                     type="button"
-                    onClick={navigateToHome}
+                    onClick={handleCreateMatrix}
                     className="bg-matrix-orange hover:bg-matrix-orange-glow text-black dune-subtitle px-12 py-4 text-lg tracking-wider relative overflow-hidden group transition-all duration-300 hover-glow"
                   >
                     <span className="relative z-10">ENTER YOUR WORLD</span>

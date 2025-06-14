@@ -7,6 +7,7 @@ interface SoundEffects {
   playPageTransition: () => void;
   playSuccess: () => void;
   playError: () => void;
+  playCelestialBlast: () => void;
 }
 
 export const useSoundEffects = (): SoundEffects => {
@@ -118,6 +119,69 @@ export const useSoundEffects = (): SoundEffects => {
     }
   };
 
+  const playCelestialBlast = () => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Create a complex celestial blast sound with multiple harmonics
+      const frequencies = [2000, 2500, 3200, 4000, 5000];
+      
+      frequencies.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        const filterNode = audioContext.createBiquadFilter();
+        
+        oscillator.connect(filterNode);
+        filterNode.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // High-pitch celestial frequencies
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(freq * 0.5, audioContext.currentTime + 0.8);
+        oscillator.type = index % 2 === 0 ? 'sine' : 'triangle';
+        
+        // Filter for ethereal quality
+        filterNode.type = 'highpass';
+        filterNode.frequency.setValueAtTime(1000, audioContext.currentTime);
+        filterNode.Q.setValueAtTime(5, audioContext.currentTime);
+        
+        // Dynamic volume envelope for blast effect
+        const startTime = audioContext.currentTime + index * 0.05;
+        const volume = 0.15 / (index + 1); // Decreasing volume for harmonics
+        
+        gainNode.gain.setValueAtTime(0, startTime);
+        gainNode.gain.exponentialRampToValueAtTime(volume, startTime + 0.02);
+        gainNode.gain.exponentialRampToValueAtTime(volume * 0.7, startTime + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
+        
+        oscillator.start(startTime);
+        oscillator.stop(startTime + 0.8);
+      });
+      
+      // Add a subtle reverb-like effect with delay
+      setTimeout(() => {
+        const delayOscillator = audioContext.createOscillator();
+        const delayGain = audioContext.createGain();
+        
+        delayOscillator.connect(delayGain);
+        delayGain.connect(audioContext.destination);
+        
+        delayOscillator.frequency.setValueAtTime(1800, audioContext.currentTime);
+        delayOscillator.type = 'sine';
+        
+        delayGain.gain.setValueAtTime(0, audioContext.currentTime);
+        delayGain.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.01);
+        delayGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+        
+        delayOscillator.start(audioContext.currentTime);
+        delayOscillator.stop(audioContext.currentTime + 0.4);
+      }, 200);
+      
+    } catch (error) {
+      console.log('Audio not available');
+    }
+  };
+
   const playSuccess = () => {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -175,5 +239,6 @@ export const useSoundEffects = (): SoundEffects => {
     playPageTransition,
     playSuccess,
     playError,
+    playCelestialBlast,
   };
 };
