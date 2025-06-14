@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 
 interface SoundEffects {
@@ -12,19 +13,54 @@ interface SoundEffects {
 }
 
 export const useSoundEffects = (): SoundEffects => {
-  const soundsRef = useRef<{ [key: string]: any }>({});
+  const audioRefs = useRef<{ [key: string]: HTMLAudioElement }>({});
 
   useEffect(() => {
-    // Initialize sound effects using Web Audio API
-    soundsRef.current = {
-      initialized: true
+    // Preload audio files
+    audioRefs.current = {
+      epicOrchestra: new Audio('/sounds/epic-orchestra-transition.mp3'),
+      laserGunThunder: new Audio('/sounds/cinematic-laser-gun-thunder.mp3'),
     };
 
+    // Set volume levels
+    if (audioRefs.current.epicOrchestra) {
+      audioRefs.current.epicOrchestra.volume = 0.7;
+      audioRefs.current.epicOrchestra.preload = 'auto';
+    }
+    
+    if (audioRefs.current.laserGunThunder) {
+      audioRefs.current.laserGunThunder.volume = 0.8;
+      audioRefs.current.laserGunThunder.preload = 'auto';
+    }
+
     return () => {
-      // Cleanup if needed
-      soundsRef.current = {};
+      // Cleanup audio references
+      Object.values(audioRefs.current).forEach(audio => {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
     };
   }, []);
+
+  const playAudioFile = (audioKey: string) => {
+    try {
+      const audio = audioRefs.current[audioKey];
+      if (audio) {
+        audio.currentTime = 0; // Reset to beginning
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log('Audio playback failed:', error);
+          });
+        }
+      }
+    } catch (error) {
+      console.log('Audio not available:', error);
+    }
+  };
 
   const playButtonHover = () => {
     try {
@@ -160,116 +196,13 @@ export const useSoundEffects = (): SoundEffects => {
   };
 
   const playEpicOrchestraTransition = () => {
-    try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      
-      // Create an epic orchestral chord progression
-      // Simulating orchestral instruments with layered frequencies
-      const chordProgression = [
-        [261.63, 329.63, 392.00, 523.25], // C Major chord
-        [293.66, 369.99, 440.00, 587.33], // D Major chord
-        [329.63, 415.30, 493.88, 659.25], // E Major chord
-      ];
-      
-      chordProgression.forEach((chord, chordIndex) => {
-        chord.forEach((freq, noteIndex) => {
-          // Create multiple oscillators for richer sound
-          [1, 2, 3].forEach((harmonic) => {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            const filterNode = audioContext.createBiquadFilter();
-            
-            oscillator.connect(filterNode);
-            filterNode.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            // Set frequency with harmonics
-            oscillator.frequency.setValueAtTime(freq * harmonic, audioContext.currentTime);
-            oscillator.type = harmonic === 1 ? 'sine' : harmonic === 2 ? 'triangle' : 'sawtooth';
-            
-            // Add filter for orchestral warmth
-            filterNode.type = 'lowpass';
-            filterNode.frequency.setValueAtTime(2000 - (harmonic * 200), audioContext.currentTime);
-            filterNode.Q.setValueAtTime(2, audioContext.currentTime);
-            
-            const startTime = audioContext.currentTime + chordIndex * 0.8;
-            const volume = (0.1 / harmonic) / (noteIndex + 1); // Decreasing volume
-            
-            gainNode.gain.setValueAtTime(0, startTime);
-            gainNode.gain.linearRampToValueAtTime(volume, startTime + 0.3);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 1.5);
-            
-            oscillator.start(startTime);
-            oscillator.stop(startTime + 1.5);
-          });
-        });
-      });
-      
-      console.log('Epic Orchestra Transition sound played');
-    } catch (error) {
-      console.log('Audio not available');
-    }
+    console.log('Playing Epic Orchestra Transition sound');
+    playAudioFile('epicOrchestra');
   };
 
   const playCinematicLaserGunThunder = () => {
-    try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      
-      // Create a cinematic laser gun thunder effect
-      // Start with high-frequency laser sound
-      const laserOscillator = audioContext.createOscillator();
-      const laserGain = audioContext.createGain();
-      const laserFilter = audioContext.createBiquadFilter();
-      
-      laserOscillator.connect(laserFilter);
-      laserFilter.connect(laserGain);
-      laserGain.connect(audioContext.destination);
-      
-      // Laser frequency sweep
-      laserOscillator.frequency.setValueAtTime(3000, audioContext.currentTime);
-      laserOscillator.frequency.exponentialRampToValueAtTime(800, audioContext.currentTime + 0.3);
-      laserOscillator.type = 'sawtooth';
-      
-      laserFilter.type = 'bandpass';
-      laserFilter.frequency.setValueAtTime(2000, audioContext.currentTime);
-      laserFilter.Q.setValueAtTime(10, audioContext.currentTime);
-      
-      laserGain.gain.setValueAtTime(0, audioContext.currentTime);
-      laserGain.gain.exponentialRampToValueAtTime(0.3, audioContext.currentTime + 0.02);
-      laserGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
-      
-      laserOscillator.start(audioContext.currentTime);
-      laserOscillator.stop(audioContext.currentTime + 0.4);
-      
-      // Add thunder rumble effect
-      setTimeout(() => {
-        const thunderOscillator = audioContext.createOscillator();
-        const thunderGain = audioContext.createGain();
-        const thunderFilter = audioContext.createBiquadFilter();
-        
-        thunderOscillator.connect(thunderFilter);
-        thunderFilter.connect(thunderGain);
-        thunderGain.connect(audioContext.destination);
-        
-        thunderOscillator.frequency.setValueAtTime(60, audioContext.currentTime);
-        thunderOscillator.frequency.exponentialRampToValueAtTime(30, audioContext.currentTime + 0.8);
-        thunderOscillator.type = 'sawtooth';
-        
-        thunderFilter.type = 'lowpass';
-        thunderFilter.frequency.setValueAtTime(200, audioContext.currentTime);
-        
-        thunderGain.gain.setValueAtTime(0, audioContext.currentTime);
-        thunderGain.gain.exponentialRampToValueAtTime(0.4, audioContext.currentTime + 0.1);
-        thunderGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.8);
-        
-        thunderOscillator.start(audioContext.currentTime);
-        thunderOscillator.stop(audioContext.currentTime + 0.8);
-      }, 300);
-      
-      console.log('Cinematic Laser Gun Thunder sound played');
-    } catch (error) {
-      console.log('Audio not available');
-    }
+    console.log('Playing Cinematic Laser Gun Thunder sound');
+    playAudioFile('laserGunThunder');
   };
 
   const playSuccess = () => {
