@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MatrixBackground } from '@/components/MatrixBackground';
@@ -137,7 +136,7 @@ const Index = () => {
       <main className="relative z-10 pt-40">
         {/* Enhanced Hero Section */}
         <div className="min-h-screen flex items-center justify-center px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 w-full max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 w-full max-w-7xl">
             
             {/* Left Column - Navigation */}
             <motion.div 
@@ -149,7 +148,7 @@ const Index = () => {
               <NavigationButtons isVisible={!showAuth || scrollY > 100} />
             </motion.div>
 
-            {/* Center Left - Auth Section */}
+            {/* Center Column - Auth */}
             <div className="flex items-center justify-center">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -166,10 +165,10 @@ const Index = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="text-center p-6 rounded-xl glass-card floating"
+                  className="text-center p-8 rounded-xl glass-card floating"
                 >
                   <motion.h2 
-                    className="dune-title text-3xl text-matrix-orange mb-4"
+                    className="dune-title text-4xl text-matrix-orange mb-6"
                     animate={{ 
                       textShadow: [
                         "0 0 10px #FF6A00",
@@ -181,30 +180,14 @@ const Index = () => {
                   >
                     CONSCIOUSNESS PORTAL
                   </motion.h2>
-                  <p className="dune-body text-white text-lg max-w-sm mx-auto leading-relaxed">
+                  <p className="dune-body text-white text-xl max-w-md mx-auto leading-relaxed">
                     Your gateway to digital transcendence and inner world exploration.
                   </p>
                 </motion.div>
               )}
             </div>
 
-            {/* Center Right - Logo beside Auth */}
-            <motion.div 
-              className="flex items-center justify-center"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <div className="glass-card p-6 rounded-xl floating">
-                <img 
-                  src="/lovable-uploads/d2c08584-d7a9-4e4e-b5be-f02c8bfcd86b.png" 
-                  alt="AARUPA MATRIX" 
-                  className="w-48 h-48 object-contain filter brightness-110"
-                />
-              </div>
-            </motion.div>
-
-            {/* Right Column - Enhanced Meditation Figure or Secondary Logo */}
+            {/* Right Column - Enhanced Meditation Figure or Logo */}
             <motion.div 
               className="flex items-center justify-center lg:justify-end"
               initial={{ opacity: 0, x: 100 }}
@@ -216,12 +199,12 @@ const Index = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="glass-card p-6 rounded-xl floating"
+                  className="glass-card p-8 rounded-xl floating"
                 >
                   <img 
                     src="/lovable-uploads/d2c08584-d7a9-4e4e-b5be-f02c8bfcd86b.png" 
                     alt="AARUPA MATRIX" 
-                    className="w-56 h-56 object-contain filter brightness-110"
+                    className="w-64 h-64 object-contain filter brightness-110"
                   />
                 </motion.div>
               ) : (
