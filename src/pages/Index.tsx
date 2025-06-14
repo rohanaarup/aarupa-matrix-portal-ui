@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MatrixBackground } from '@/components/MatrixBackground';
@@ -20,7 +19,7 @@ const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   
-  const { playCelestialBlast } = useSoundEffects();
+  const { playCelestialBlast, playEpicOrchestraTransition, playCinematicLaserGunThunder } = useSoundEffects();
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -37,7 +36,19 @@ const Index = () => {
   const handleLoadingComplete = () => {
     setShowLoader(false);
     setIsLoaded(true);
-    playCelestialBlast();
+    // Play Epic Orchestra Transition when loading completes and Landing Page appears
+    if (soundEnabled) {
+      playEpicOrchestraTransition();
+    }
+  };
+
+  const handleEnterWorldClick = () => {
+    // Play Cinematic Laser Gun Thunder when "Enter The World" button is clicked
+    if (soundEnabled) {
+      playCinematicLaserGunThunder();
+    }
+    // Add any navigation logic here if needed
+    console.log('Enter The World clicked');
   };
 
   return (
@@ -167,7 +178,10 @@ const Index = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
               >
-                <NavigationButtons isVisible={!showAuth || scrollY > 100} />
+                <NavigationButtons 
+                  isVisible={!showAuth || scrollY > 100} 
+                  onEnterWorldClick={handleEnterWorldClick}
+                />
               </motion.div>
 
               {/* Center Column - Auth */}

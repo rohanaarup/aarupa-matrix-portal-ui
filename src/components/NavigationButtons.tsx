@@ -1,14 +1,26 @@
-
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import { CinematicButton } from './CinematicButton';
 import { useNavigate } from 'react-router-dom';
 
 interface NavigationButtonsProps {
   isVisible: boolean;
+  onEnterWorldClick?: () => void;
 }
 
-export const NavigationButtons = ({ isVisible }: NavigationButtonsProps) => {
+export const NavigationButtons = ({ isVisible, onEnterWorldClick }: NavigationButtonsProps) => {
   const navigate = useNavigate();
+
+  const handleEnterWorld = () => {
+    // Trigger the sound effect first
+    if (onEnterWorldClick) {
+      onEnterWorldClick();
+    }
+    
+    // Small delay to let sound play, then navigate
+    setTimeout(() => {
+      navigate('/questionnaire');
+    }, 500);
+  };
 
   const buttons = [
     { text: 'ABOUT A.MATRIX', path: '/about', delay: 0 },
@@ -23,11 +35,23 @@ export const NavigationButtons = ({ isVisible }: NavigationButtonsProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: isVisible ? 1 : 0 }}
+      className="flex flex-col space-y-6"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ 
+        opacity: isVisible ? 1 : 0,
+        scale: isVisible ? 1 : 0.8
+      }}
       transition={{ duration: 0.8 }}
-      className="flex flex-col space-y-4 w-full max-w-sm"
     >
+      <CinematicButton
+        onClick={handleEnterWorld}
+        className="w-64 text-center"
+        variant="primary"
+        size="lg"
+      >
+        ENTER THE WORLD
+      </CinematicButton>
+
       {buttons.map((button, index) => (
         <motion.div
           key={button.text}
