@@ -139,7 +139,7 @@ export const CinematicLoader = ({ onLoadingComplete }: CinematicLoaderProps) => 
           animate={{ opacity: 1 }}
           transition={{ delay: 2 }}
         >
-          THE WORLD OF ROHAN
+          Create your own fantasy world
         </motion.p>
 
         {/* Progress Bar */}

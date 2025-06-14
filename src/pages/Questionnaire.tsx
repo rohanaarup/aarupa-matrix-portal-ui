@@ -24,7 +24,7 @@ const Questionnaire = () => {
   const [showTransition, setShowTransition] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
-  const { playCelestialBlast } = useSoundEffects();
+  const { playCelestialBlast, playEpicOrchestraTransition } = useSoundEffects();
 
   const questions = [
     "What draws you to explore your inner consciousness?",
@@ -70,8 +70,8 @@ const Questionnaire = () => {
   };
 
   const handleCreateMatrix = () => {
-    // Play the celestial blast sound
-    playCelestialBlast();
+    // Play the Epic Orchestra Transition sound when cinematic transition starts
+    playEpicOrchestraTransition();
     
     // Show cinematic transition
     setShowTransition(true);
