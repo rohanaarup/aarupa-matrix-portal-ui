@@ -1,6 +1,5 @@
 
 import { useEffect, useRef } from 'react';
-import { Howl } from 'howler';
 
 interface SoundEffects {
   playButtonHover: () => void;
@@ -11,43 +10,41 @@ interface SoundEffects {
 }
 
 export const useSoundEffects = (): SoundEffects => {
-  const soundsRef = useRef<{ [key: string]: Howl }>({});
+  const soundsRef = useRef<{ [key: string]: any }>({});
 
   useEffect(() => {
-    // Initialize sound effects with generated tones (since we can't use external files)
+    // Initialize sound effects using Web Audio API only
     const createTone = (frequency: number, duration: number = 0.1, volume: number = 0.3) => {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-      oscillator.type = 'sine';
-      
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + duration);
+      try {
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+        oscillator.type = 'sine';
+        
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(volume, audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration);
+      } catch (error) {
+        console.log('Audio not available');
+      }
     };
 
-    // Initialize placeholder sounds (in production, these would be actual audio files)
+    // Initialize placeholder sounds (using Web Audio API instead of Howler)
     soundsRef.current = {
-      buttonHover: new Howl({
-        src: ['data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmoeGiOQw/LJdCUFLIHO8tiJNwgZaLvt559MEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmoeGCGKxetd']
-      }),
-      buttonClick: new Howl({
-        src: ['data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmoeGiOQw/LJdCUFLIHO8tiJNwgZaLvt559MEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmoeGCGKxfdf']
-      })
+      initialized: true
     };
 
     return () => {
-      Object.values(soundsRef.current).forEach(sound => {
-        if (sound) sound.unload();
-      });
+      // Cleanup if needed
+      soundsRef.current = {};
     };
   }, []);
 
