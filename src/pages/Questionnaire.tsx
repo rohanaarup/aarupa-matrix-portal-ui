@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { MatrixBackground } from '@/components/MatrixBackground';
 import { CustomCursor } from '@/components/CustomCursor';
 import { FloatingParticles } from '@/components/FloatingParticles';
 import { PoweredByFooter } from '@/components/PoweredByFooter';
+import { SpeechToTextArea } from '@/components/SpeechToTextArea';
 import { Play, Pause } from 'lucide-react';
 
 const Questionnaire = () => {
@@ -215,14 +215,11 @@ const Questionnaire = () => {
                 <Label className="dune-subtitle text-matrix-orange text-xl tracking-wide block mb-6">
                   Question {currentQuestion}: {questions[currentQuestion - 1]}
                 </Label>
-                <motion.textarea
+                <SpeechToTextArea
                   value={currentAnswer}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  className="w-full min-h-[200px] glass-effect rounded-lg text-white dune-body resize-none p-6 focus:outline-none focus:ring-2 focus:ring-matrix-orange/50 placeholder:text-gray-400 transition-all duration-300"
+                  onChange={handleInputChange}
                   placeholder="Share your deepest thoughts and insights..."
-                  autoFocus
-                  whileFocus={{ scale: 1.01 }}
-                  transition={{ duration: 0.2 }}
+                  autoFocus={true}
                 />
               </motion.div>
 
