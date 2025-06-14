@@ -4,6 +4,7 @@ import { MatrixBackground } from '@/components/MatrixBackground';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Settings, Home as HomeIcon, Globe, Eye, Headphones } from 'lucide-react';
+import { PoweredByFooter } from '@/components/PoweredByFooter';
 
 const Home = () => {
   const navigateToPage = (page: string) => {
@@ -13,6 +14,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-matrix-black text-white relative overflow-hidden">
       <MatrixBackground />
+      <PoweredByFooter />
       
       {/* Enhanced animated stars background */}
       <div className="absolute inset-0 z-0">
@@ -38,8 +40,9 @@ const Home = () => {
       </div>
       
       <div className="relative z-10 min-h-screen">
-        {/* Fixed/Static Navigation Bar */}
+        {/* Fixed Navigation Bar with Proper Logo Alignment */}
         <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 border-b border-[#ff5f1f]/30 bg-black/90 backdrop-blur-md">
+          {/* Left Navigation Links */}
           <div className="flex items-center space-x-8">
             <motion.button 
               onClick={() => navigateToPage('home')} 
@@ -59,13 +62,8 @@ const Home = () => {
             </motion.button>
           </div>
           
-          {/* Logo and Title - Centered */}
-          <motion.div 
-            className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-4"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
+          {/* Centered Logo and Title */}
+          <div className="flex items-center space-x-4">
             <motion.div
               className="w-12 h-12 rounded-xl overflow-hidden border-2 border-[#ff5f1f]/60 shadow-xl bg-white/10 backdrop-blur-sm"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -83,11 +81,17 @@ const Home = () => {
                 className="w-full h-full object-cover brightness-125 contrast-110 saturate-110"
               />
             </motion.div>
-            <span className="text-[#ff5f1f] font-matrix font-black text-3xl tracking-widest drop-shadow-lg">
+            <motion.h1 
+              className="text-[#ff5f1f] font-matrix font-black text-3xl tracking-widest drop-shadow-lg"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
               AARUPA MATRIX
-            </span>
-          </motion.div>
+            </motion.h1>
+          </div>
           
+          {/* Right Navigation Links */}
           <div className="flex items-center space-x-8">
             <motion.button 
               onClick={() => navigateToPage('visualize-3d-vr')} 

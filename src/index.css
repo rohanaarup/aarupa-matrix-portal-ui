@@ -8,34 +8,24 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -76,14 +66,8 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  /* Custom Cursor */
-  * {
-    cursor: none !important;
-  }
-
   body {
     @apply bg-background text-foreground;
-    cursor: none !important;
     overflow-x: hidden;
   }
 
@@ -102,7 +86,27 @@
     box-shadow: 0 8px 32px 0 rgba(255, 106, 0, 0.2);
   }
 
+  /* Matrix color scheme */
+  .matrix-orange { color: #FF6A00; }
+  .matrix-black { background-color: #000000; }
+  .matrix-gray { color: #1C1C1C; }
+
   /* Dune-style typography */
+  .font-matrix {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.1;
+  }
+
+  .font-matrix-body {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+
   .dune-title {
     font-family: 'Orbitron', monospace;
     font-weight: 900;
@@ -169,37 +173,6 @@
 
   .particle-glow {
     animation: particleGlow 3s ease-in-out infinite;
-  }
-
-  /* Cursor trail effect */
-  .cursor-trail {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: #FF6A00;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: all 0.1s ease;
-    box-shadow: 0 0 10px #FF6A00;
-  }
-
-  .cursor-main {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #FF6A00;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    transition: all 0.1s ease;
-    background: rgba(255, 106, 0, 0.1);
-    box-shadow: 0 0 20px #FF6A00;
-  }
-
-  .cursor-hover {
-    transform: scale(1.5);
-    background: rgba(255, 106, 0, 0.3);
   }
 }
 
