@@ -64,9 +64,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				matrix: {
-					orange: '#E86C00',
+					orange: '#FF6A00',
 					'orange-glow': '#FF8533',
+					'orange-light': '#FFB366',
 					black: '#000000',
+					'dark-gray': '#1C1C1C',
 					gray: '#333333',
 					'gray-light': '#444444',
 				}
@@ -105,10 +107,10 @@ export default {
 				},
 				'matrix-glow': {
 					'0%, 100%': {
-						boxShadow: '0 0 5px #E86C00, 0 0 10px #E86C00, 0 0 15px #E86C00'
+						boxShadow: '0 0 5px #FF6A00, 0 0 10px #FF6A00, 0 0 15px #FF6A00'
 					},
 					'50%': {
-						boxShadow: '0 0 10px #E86C00, 0 0 20px #E86C00, 0 0 30px #E86C00'
+						boxShadow: '0 0 10px #FF6A00, 0 0 20px #FF6A00, 0 0 30px #FF6A00'
 					}
 				},
 				'matrix-breathe': {
@@ -123,10 +125,13 @@ export default {
 				},
 				'matrix-float': {
 					'0%, 100%': {
-						transform: 'translateY(0px)'
+						transform: 'translateY(0px) rotate(0deg)'
 					},
-					'50%': {
-						transform: 'translateY(-10px)'
+					'33%': {
+						transform: 'translateY(-8px) rotate(1deg)'
+					},
+					'66%': {
+						transform: 'translateY(-4px) rotate(-1deg)'
 					}
 				},
 				'matrix-slide-up': {
@@ -146,6 +151,59 @@ export default {
 					'100%': {
 						opacity: '1'
 					}
+				},
+				'logo-rotate': {
+					'0%': {
+						transform: 'rotate(0deg) scale(1)'
+					},
+					'50%': {
+						transform: 'rotate(180deg) scale(1.1)'
+					},
+					'100%': {
+						transform: 'rotate(360deg) scale(1)'
+					}
+				},
+				'particle-drift': {
+					'0%': {
+						transform: 'translateY(100vh) translateX(0px) scale(0)'
+					},
+					'10%': {
+						transform: 'translateY(90vh) translateX(10px) scale(1)'
+					},
+					'90%': {
+						transform: 'translateY(10vh) translateX(-10px) scale(1)'
+					},
+					'100%': {
+						transform: 'translateY(-10vh) translateX(0px) scale(0)'
+					}
+				},
+				'mirror-ripple': {
+					'0%': {
+						transform: 'scale(1)',
+						opacity: '1'
+					},
+					'50%': {
+						transform: 'scale(1.05)',
+						opacity: '0.8'
+					},
+					'100%': {
+						transform: 'scale(1)',
+						opacity: '1'
+					}
+				},
+				'cinematic-entrance': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(30px) scale(0.95)'
+					},
+					'50%': {
+						opacity: '0.7',
+						transform: 'translateY(15px) scale(0.98)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0) scale(1)'
+					}
 				}
 			},
 			animation: {
@@ -154,13 +212,20 @@ export default {
 				'matrix-pulse': 'matrix-pulse 3s ease-in-out infinite',
 				'matrix-glow': 'matrix-glow 2s ease-in-out infinite',
 				'matrix-breathe': 'matrix-breathe 4s ease-in-out infinite',
-				'matrix-float': 'matrix-float 6s ease-in-out infinite',
+				'matrix-float': 'matrix-float 8s ease-in-out infinite',
 				'matrix-slide-up': 'matrix-slide-up 0.8s ease-out',
 				'matrix-fade-in': 'matrix-fade-in 1s ease-out',
+				'logo-rotate': 'logo-rotate 10s ease-in-out infinite',
+				'particle-drift': 'particle-drift 15s linear infinite',
+				'mirror-ripple': 'mirror-ripple 1.5s ease-in-out',
+				'cinematic-entrance': 'cinematic-entrance 1.2s ease-out forwards',
 			},
 			fontFamily: {
+				'dune': ['Orbitron', 'monospace'],
+				'dune-subtitle': ['Rajdhani', 'sans-serif'],
+				'dune-body': ['Exo 2', 'sans-serif'],
 				'matrix': ['Orbitron', 'monospace'],
-				'matrix-body': ['Inter', 'sans-serif'],
+				'matrix-body': ['Exo 2', 'sans-serif'],
 			}
 		}
 	},

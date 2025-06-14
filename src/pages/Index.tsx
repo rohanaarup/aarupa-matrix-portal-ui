@@ -6,15 +6,23 @@ import { MeditationFigure } from '@/components/MeditationFigure';
 import { AuthSection } from '@/components/AuthSection';
 import { NavigationButtons } from '@/components/NavigationButtons';
 import { InfoSections } from '@/components/InfoSections';
+import { CustomCursor } from '@/components/CustomCursor';
+import { FloatingParticles } from '@/components/FloatingParticles';
+import { PoweredByFooter } from '@/components/PoweredByFooter';
 
 const Index = () => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   const [showAuth, setShowAuth] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
+    
+    // Trigger loaded state after initial render
+    setTimeout(() => setIsLoaded(true), 500);
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -25,31 +33,35 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-matrix-black text-white overflow-x-hidden relative">
-      {/* Clean 3D Background */}
+      <CustomCursor />
+      <FloatingParticles />
+      <PoweredByFooter />
+      
+      {/* Enhanced 3D Background */}
       <MatrixBackground />
       
-      {/* Clean Viewport Frame Border */}
+      {/* Enhanced Viewport Frame Border */}
       <motion.div 
-        className="fixed inset-4 border border-[#ff5f1f]/60 pointer-events-none z-50"
+        className="fixed inset-4 border border-matrix-orange/60 pointer-events-none z-50"
         animate={{ 
           boxShadow: [
-            "0 0 20px rgba(255, 95, 31, 0.3)",
-            "0 0 40px rgba(255, 95, 31, 0.5)",
-            "0 0 20px rgba(255, 95, 31, 0.3)"
+            "0 0 20px rgba(255, 106, 0, 0.3)",
+            "0 0 40px rgba(255, 106, 0, 0.5)",
+            "0 0 20px rgba(255, 106, 0, 0.3)"
           ]
         }}
         transition={{ duration: 3, repeat: Infinity }}
       >
-        {/* Clean corner decorations */}
-        <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#ff5f1f]"></div>
-        <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#ff5f1f]"></div>
-        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#ff5f1f]"></div>
-        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#ff5f1f]"></div>
+        {/* Enhanced corner decorations */}
+        <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-matrix-orange"></div>
+        <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-matrix-orange"></div>
+        <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-matrix-orange"></div>
+        <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-matrix-orange"></div>
       </motion.div>
 
-      {/* Clean Header */}
+      {/* Enhanced Header */}
       <motion.header 
-        className="fixed top-0 left-0 right-0 z-40 p-8 bg-black/80 border-b border-[#ff5f1f]/20"
+        className="fixed top-0 left-0 right-0 z-40 p-8 glass-effect border-b border-matrix-orange/20"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
@@ -57,14 +69,22 @@ const Index = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <motion.div
-              className="w-16 h-16 rounded-xl overflow-hidden border-2 border-[#ff5f1f]/60 shadow-xl bg-white/10 backdrop-blur-sm"
+              className="w-16 h-16 rounded-xl overflow-hidden border-2 border-matrix-orange/60 shadow-xl glass-effect"
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.7 }}
+              animate={{ 
+                opacity: 1, 
+                scale: 1,
+                rotate: isLoaded ? 360 : 0
+              }}
+              transition={{ 
+                opacity: { duration: 1, delay: 0.7 },
+                scale: { duration: 1, delay: 0.7 },
+                rotate: { duration: 10, delay: 1, ease: "easeInOut" }
+              }}
               whileHover={{ 
                 scale: 1.1,
-                boxShadow: "0 0 30px rgba(255, 95, 31, 0.8)",
-                borderColor: "#ff5f1f"
+                boxShadow: "0 0 30px rgba(255, 106, 0, 0.8)",
+                borderColor: "#FF6A00"
               }}
             >
               <img 
@@ -74,15 +94,22 @@ const Index = () => {
               />
             </motion.div>
             <motion.h1 
-              className="text-5xl md:text-6xl font-matrix font-black text-[#ff5f1f] tracking-widest"
+              className="dune-title text-5xl md:text-6xl text-matrix-orange"
+              initial={{ opacity: 0, x: -50 }}
               animate={{ 
+                opacity: 1, 
+                x: 0,
                 textShadow: [
-                  "0 0 20px #ff5f1f",
-                  "0 0 40px #ff5f1f, 0 0 60px #ff5f1f",
-                  "0 0 20px #ff5f1f"
+                  "0 0 20px #FF6A00",
+                  "0 0 40px #FF6A00, 0 0 60px #FF6A00",
+                  "0 0 20px #FF6A00"
                 ]
               }}
-              transition={{ duration: 3, repeat: Infinity }}
+              transition={{ 
+                opacity: { duration: 1, delay: 0.8 },
+                x: { duration: 1, delay: 0.8 },
+                textShadow: { duration: 3, repeat: Infinity, delay: 1.5 }
+              }}
               whileHover={{ scale: 1.05 }}
             >
               AARUPA MATRIX
@@ -91,14 +118,14 @@ const Index = () => {
           
           <motion.button
             onClick={toggleSound}
-            className="flex items-center space-x-3 text-[#ff5f1f] border border-[#ff5f1f]/50 px-6 py-3 bg-black/90 hover:bg-[#ff5f1f]/10 transition-all duration-300 font-matrix tracking-wide rounded-lg"
-            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 95, 31, 0.5)" }}
+            className="flex items-center space-x-3 text-matrix-orange border border-matrix-orange/50 px-6 py-3 glass-effect hover:bg-matrix-orange/10 transition-all duration-300 dune-caption tracking-wide rounded-lg hover-glow"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <span className="text-sm">SOUND:</span>
+            <span>SOUND:</span>
             <span className="font-bold">{soundEnabled ? 'ON' : 'OFF'}</span>
             <motion.div 
-              className={`w-3 h-3 rounded-full ${soundEnabled ? 'bg-[#ff5f1f]' : 'bg-matrix-gray'}`}
+              className={`w-3 h-3 rounded-full ${soundEnabled ? 'bg-matrix-orange' : 'bg-matrix-gray'}`}
               animate={soundEnabled ? { scale: [1, 1.3, 1] } : {}}
               transition={{ duration: 1, repeat: Infinity }}
             />
@@ -106,33 +133,9 @@ const Index = () => {
         </div>
       </motion.header>
 
-      {/* Clean floating particles */}
-      <div className="absolute inset-0 z-5">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-[#ff5f1f]/40 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [-20, -100],
-              opacity: [0, 0.6, 0],
-              scale: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Main Content */}
       <main className="relative z-10 pt-40">
-        {/* Clean Hero Section */}
+        {/* Enhanced Hero Section */}
         <div className="min-h-screen flex items-center justify-center px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 w-full max-w-7xl">
             
@@ -152,6 +155,7 @@ const Index = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, delay: 0.3 }}
+                className="w-full"
               >
                 <AuthSection isVisible={showAuth && scrollY < 100} />
               </motion.div>
@@ -162,62 +166,64 @@ const Index = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8 }}
-                  className="text-center p-8 rounded-xl border border-[#ff5f1f]/30 bg-black/80"
+                  className="text-center p-8 rounded-xl glass-card floating"
                 >
                   <motion.h2 
-                    className="text-4xl font-matrix font-bold text-[#ff5f1f] mb-6 tracking-wider"
+                    className="dune-title text-4xl text-matrix-orange mb-6"
                     animate={{ 
                       textShadow: [
-                        "0 0 10px #ff5f1f",
-                        "0 0 20px #ff5f1f",
-                        "0 0 10px #ff5f1f"
+                        "0 0 10px #FF6A00",
+                        "0 0 20px #FF6A00",
+                        "0 0 10px #FF6A00"
                       ]
                     }}
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     CONSCIOUSNESS PORTAL
                   </motion.h2>
-                  <p className="text-white font-matrix-body text-xl max-w-md mx-auto leading-relaxed">
+                  <p className="dune-body text-white text-xl max-w-md mx-auto leading-relaxed">
                     Your gateway to digital transcendence and inner world exploration.
                   </p>
                 </motion.div>
               )}
             </div>
 
-            {/* Right Column - Meditation Figure */}
+            {/* Right Column - Enhanced Meditation Figure */}
             <motion.div 
               className="flex items-center justify-center lg:justify-end"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 1.2 }}
             >
-              <MeditationFigure />
+              <div className="floating">
+                <MeditationFigure />
+              </div>
             </motion.div>
           </div>
         </div>
 
-        {/* Clean Scroll Indicator */}
+        {/* Enhanced Scroll Indicator */}
         <motion.div
-          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-[#ff5f1f]"
+          className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-matrix-orange"
           animate={{ y: [0, 15, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <motion.span 
-            className="font-matrix text-sm tracking-wider mb-4"
+            className="dune-caption mb-4"
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             EXPLORE DEEPER
           </motion.span>
-          <div className="w-px h-16 bg-gradient-to-b from-[#ff5f1f] to-transparent"></div>
+          <div className="w-px h-16 bg-gradient-to-b from-matrix-orange to-transparent"></div>
         </motion.div>
 
-        {/* Information Sections */}
+        {/* Enhanced Information Sections */}
         <InfoSections />
 
-        {/* Clean Footer */}
+        {/* Enhanced Footer */}
         <motion.footer
-          className="relative border-t border-[#ff5f1f]/30 bg-gradient-to-br from-black/95 to-black/80 p-12 mt-20"
+          className="relative border-t border-matrix-orange/30 glass-effect p-12 mt-20"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1 }}
@@ -225,27 +231,27 @@ const Index = () => {
         >
           <div className="text-center">
             <motion.h3 
-              className="text-3xl font-matrix font-bold text-[#ff5f1f] mb-6 tracking-wider"
+              className="dune-title text-3xl text-matrix-orange mb-6"
               whileHover={{ scale: 1.05 }}
             >
               THE WORLD OF ROHAN
             </motion.h3>
-            <p className="text-white font-matrix-body text-lg">
+            <p className="dune-body text-white text-lg">
               Where consciousness meets infinite possibility
             </p>
           </div>
         </motion.footer>
       </main>
 
-      {/* Clean diagonal line pattern overlay - reduced opacity */}
-      <div className="fixed inset-0 pointer-events-none z-5 opacity-3">
+      {/* Enhanced diagonal line pattern overlay */}
+      <div className="fixed inset-0 pointer-events-none z-5 opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: `repeating-linear-gradient(
             45deg,
             transparent,
             transparent 60px,
-            #ff5f1f 60px,
-            #ff5f1f 61px
+            #FF6A00 60px,
+            #FF6A00 61px
           )`
         }}></div>
       </div>
