@@ -188,16 +188,31 @@ const Index = () => {
               )}
             </div>
 
-            {/* Right Column - Enhanced Meditation Figure */}
+            {/* Right Column - Enhanced Meditation Figure or Logo */}
             <motion.div 
               className="flex items-center justify-center lg:justify-end"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 1.2 }}
             >
-              <div className="floating">
-                <MeditationFigure />
-              </div>
+              {scrollY > 100 ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  className="glass-card p-8 rounded-xl floating"
+                >
+                  <img 
+                    src="/lovable-uploads/d2c08584-d7a9-4e4e-b5be-f02c8bfcd86b.png" 
+                    alt="AARUPA MATRIX" 
+                    className="w-64 h-64 object-contain filter brightness-110"
+                  />
+                </motion.div>
+              ) : (
+                <div className="floating">
+                  <MeditationFigure />
+                </div>
+              )}
             </motion.div>
           </div>
         </div>
